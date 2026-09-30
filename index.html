@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#010101" />
+    <title>Select Ethnicity & Age — Interactive Prototype</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="age.css" />
+  </head>
+  <body>
+    <main class="viewport">
+      <div class="phone" id="phone" aria-label="Select Ethnicity prototype">
+        <div class="video-stack" aria-hidden="true">
+          <video class="hero-video active" data-ethnicity="white" src="assets/white.mp4" autoplay muted loop playsinline preload="auto"></video>
+          <video class="hero-video" data-ethnicity="asian" src="assets/asian.mp4" autoplay muted loop playsinline preload="auto"></video>
+          <video class="hero-video" data-ethnicity="ebony" src="assets/ebony.mp4" autoplay muted loop playsinline preload="auto"></video>
+          <video class="hero-video" data-ethnicity="latina" src="assets/latina.mp4" autoplay muted loop playsinline preload="auto"></video>
+        </div>
+        <div class="age-portrait" aria-hidden="true">
+          <img class="age-frame" data-age="18" src="assets/figma-age-18.png" alt="" style="opacity:1" />
+          <img class="age-frame" data-age="25" src="assets/figma-age-25.png" alt="" />
+          <img class="age-frame" data-age="35" src="assets/figma-age-35.png" alt="" />
+          <img class="age-frame" data-age="45" src="assets/figma-age-45.png" alt="" />
+        </div>
+        <div class="gradient-top" aria-hidden="true"></div>
+        <div class="gradient-bottom" aria-hidden="true"></div>
+
+        <div class="status-bar" aria-hidden="true">
+          <span class="status-time">9:41</span>
+          <span class="dynamic-island"></span>
+          <img class="status-icons" src="assets/imgStatusPro.svg" alt="" />
+        </div>
+
+        <header class="header">
+          <button class="round-button header-control" id="backButton" type="button" aria-label="Back to first choice">
+            <img src="assets/imgIconCaretLeft.svg" alt="" />
+          </button>
+          <div class="header-center">
+            <h1 id="headerTitle">Select Ethnicity</h1>
+            <div class="progress" role="progressbar" aria-label="Builder progress" aria-valuemin="0" aria-valuemax="8" aria-valuenow="1"><span></span></div>
+          </div>
+          <button class="round-button header-control" id="closeButton" type="button" aria-label="Close selection">
+            <img src="assets/imgIconClose.svg" alt="" />
+          </button>
+        </header>
+
+        <section class="choices" aria-label="Choose a character">
+          <button class="choice selected" type="button" data-choice="white" aria-pressed="true" aria-label="White">
+            <span class="avatar"><img src="assets/imgBotAva.png" alt="" /></span><span class="choice-label">White</span>
+          </button>
+          <button class="choice" type="button" data-choice="asian" aria-pressed="false" aria-label="Asian">
+            <span class="avatar"><img src="assets/imgBotAva1.png" alt="" /></span><span class="choice-label">Asian</span>
+          </button>
+          <button class="choice" type="button" data-choice="ebony" aria-pressed="false" aria-label="Ebony">
+            <span class="avatar"><img src="assets/imgBotAva2.png" alt="" /></span><span class="choice-label">Ebony</span>
+          </button>
+          <button class="choice" type="button" data-choice="latina" aria-pressed="false" aria-label="Latina">
+            <span class="avatar"><img src="assets/imgBotAva3.png" alt="" /></span><span class="choice-label">Latina</span>
+          </button>
+        </section>
+
+        <section class="age-slider" id="ageSlider" aria-label="Select age" aria-hidden="true" inert>
+          <output class="age-value" id="ageValue" for="ageRange">18s</output>
+          <div class="age-track" aria-hidden="true"><span class="age-track-fill"></span></div>
+          <div class="age-thumb" aria-hidden="true"></div>
+          <div class="age-marks" aria-label="Choose one of four ages">
+            <button class="age-mark" type="button" data-index="0" aria-label="18 years" aria-pressed="true"></button>
+            <button class="age-mark" type="button" data-index="1" aria-label="25 years" aria-pressed="false"></button>
+            <button class="age-mark" type="button" data-index="2" aria-label="35 years" aria-pressed="false"></button>
+            <button class="age-mark" type="button" data-index="3" aria-label="45 years" aria-pressed="false"></button>
+          </div>
+          <input id="ageRange" type="range" min="0" max="3" step="1" value="0" aria-label="Age" disabled />
+        </section>
+
+        <button class="continue-button" id="continueButton" type="button">
+          <span>Continue</span><img src="assets/imgIconArrowRight.svg" alt="" />
+        </button>
+
+        <nav class="browser-bar" aria-label="Prototype browser controls">
+          <button class="browser-round" id="browserBack" type="button" aria-label="Reset selection"><span class="browser-chevron"></span></button>
+          <div class="address-bar">
+            <img class="site-icon" src="assets/imgSiteSettings.svg" alt="" />
+            <span>mysecret.ai</span>
+            <button id="reloadButton" type="button" aria-label="Replay video"><img src="assets/imgReload.svg" alt="" /></button>
+          </div>
+          <button class="browser-round more-button" id="moreButton" type="button" aria-label="More options" aria-expanded="false">•••</button>
+        </nav>
+
+        <div class="menu" id="menu" hidden>
+          <button id="replayMenuButton" type="button">Replay video</button>
+          <button id="resetMenuButton" type="button">Reset selection</button>
+        </div>
+
+        <div class="confirmation" id="confirmation" hidden>
+          <div class="confirmation-card" role="dialog" aria-modal="true" aria-labelledby="confirmationTitle">
+            <div class="confirmation-avatar"><img id="confirmationImage" src="assets/imgBotAva.png" alt="" /></div>
+            <p class="eyebrow" id="confirmationEyebrow">Selection saved</p>
+            <h2 id="confirmationTitle">White</h2>
+            <p id="confirmationDescription">Tap below to explore another character.</p>
+            <button id="chooseAgain" type="button">Edit age</button>
+          </div>
+        </div>
+        <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
