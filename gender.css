@@ -1,0 +1,113 @@
+.gender-portrait {
+  position: absolute;
+  z-index: 0;
+  top: clamp(78px, calc(20dvh - 50px), 125px);
+  left: 0;
+  width: 100%;
+  height: min(593px, calc(100% - 165px));
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(1.025);
+  transition: opacity 500ms ease, transform 850ms cubic-bezier(.2, .7, .2, 1);
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 8%, #000 76%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 8%, #000 76%, transparent 100%);
+}
+
+.gender-frame {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: auto;
+  height: 100%;
+  max-width: none;
+  opacity: 0;
+  transform: translateX(-50%) scale(1.025);
+  transition: opacity 420ms ease, transform 750ms cubic-bezier(.2, .7, .2, 1);
+}
+
+.gender-frame.active {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.gender-choices {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 112px);
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transform: translate(-50%, 12px);
+  transition: opacity 400ms ease, transform 400ms ease;
+  pointer-events: none;
+}
+
+.gender-choice {
+  width: 90px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #ffffff1f;
+  border-radius: 24px;
+  background: #100f1480;
+  backdrop-filter: blur(8px);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 220ms ease, border-color 220ms ease, transform 220ms ease;
+}
+
+.gender-choice:hover {
+  background: #332638d9;
+  border-color: #ffffff66;
+  transform: translateY(-2px);
+}
+
+.gender-choice.selected,
+.gender-choice.selected:hover {
+  border-color: #ffffff85;
+  background: linear-gradient(100deg, #fb5bf7, #f145f3);
+  box-shadow: inset 0 -1px 0 #ffffff55, 0 1px 5px #ef46f199;
+}
+
+.phone.gender-mode .gender-portrait {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.video-stack {
+  transition: opacity 500ms ease;
+}
+
+.phone.gender-mode .gender-choices {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+
+.phone.gender-mode .video-stack,
+.phone.gender-mode .choices {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.phone.gender-mode .continue-button:disabled,
+.phone.gender-mode .continue-button:disabled:hover {
+  border-color: #ffffff33;
+  background: #27242a;
+  box-shadow: none;
+  color: #ffffff8c;
+  cursor: not-allowed;
+}
+
+.phone.gender-mode .continue-button:disabled img {
+  opacity: .55;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gender-portrait,
+  .gender-frame,
+  .gender-choices,
+  .gender-choice { transition-duration: .01ms; }
+}
