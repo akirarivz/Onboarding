@@ -7,15 +7,16 @@
     <title>Select Ethnicity & Age — Interactive Prototype</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="age.css" />
+    <link rel="stylesheet" href="mobile.css" />
   </head>
   <body>
     <main class="viewport">
       <div class="phone" id="phone" aria-label="Select Ethnicity prototype">
         <div class="video-stack" aria-hidden="true">
-          <video class="hero-video active" data-ethnicity="white" src="assets/white.mp4" autoplay muted loop playsinline preload="auto"></video>
-          <video class="hero-video" data-ethnicity="asian" src="assets/asian.mp4" autoplay muted loop playsinline preload="auto"></video>
-          <video class="hero-video" data-ethnicity="ebony" src="assets/ebony.mp4" autoplay muted loop playsinline preload="auto"></video>
-          <video class="hero-video" data-ethnicity="latina" src="assets/latina.mp4" autoplay muted loop playsinline preload="auto"></video>
+          <video class="hero-video active" data-ethnicity="white" src="assets/white.mp4?v=5s" autoplay muted loop playsinline preload="auto"></video>
+          <video class="hero-video" data-ethnicity="asian" src="assets/asian.mp4?v=5s" autoplay muted loop playsinline preload="auto"></video>
+          <video class="hero-video" data-ethnicity="ebony" src="assets/ebony.mp4?v=5s" autoplay muted loop playsinline preload="auto"></video>
+          <video class="hero-video" data-ethnicity="latina" src="assets/latina.mp4?v=5s" autoplay muted loop playsinline preload="auto"></video>
         </div>
         <div class="age-portrait" aria-hidden="true">
           <img class="age-frame" data-age="18" src="assets/figma-age-18.png" alt="" style="opacity:1" />
@@ -25,12 +26,6 @@
         </div>
         <div class="gradient-top" aria-hidden="true"></div>
         <div class="gradient-bottom" aria-hidden="true"></div>
-
-        <div class="status-bar" aria-hidden="true">
-          <span class="status-time">9:41</span>
-          <span class="dynamic-island"></span>
-          <img class="status-icons" src="assets/imgStatusPro.svg" alt="" />
-        </div>
 
         <header class="header">
           <button class="round-button header-control" id="backButton" type="button" aria-label="Back to first choice">
@@ -76,21 +71,6 @@
         <button class="continue-button" id="continueButton" type="button">
           <span>Continue</span><img src="assets/imgIconArrowRight.svg" alt="" />
         </button>
-
-        <nav class="browser-bar" aria-label="Prototype browser controls">
-          <button class="browser-round" id="browserBack" type="button" aria-label="Reset selection"><span class="browser-chevron"></span></button>
-          <div class="address-bar">
-            <img class="site-icon" src="assets/imgSiteSettings.svg" alt="" />
-            <span>mysecret.ai</span>
-            <button id="reloadButton" type="button" aria-label="Replay video"><img src="assets/imgReload.svg" alt="" /></button>
-          </div>
-          <button class="browser-round more-button" id="moreButton" type="button" aria-label="More options" aria-expanded="false">•••</button>
-        </nav>
-
-        <div class="menu" id="menu" hidden>
-          <button id="replayMenuButton" type="button">Replay video</button>
-          <button id="resetMenuButton" type="button">Reset selection</button>
-        </div>
 
         <div class="confirmation" id="confirmation" hidden>
           <div class="confirmation-card" role="dialog" aria-modal="true" aria-labelledby="confirmationTitle">

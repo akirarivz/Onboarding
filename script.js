@@ -17,32 +17,17 @@ const ageStops = ageFrames.map(frame => Number(frame.dataset.age));
 const ageMarks = [...document.querySelectorAll('.age-mark')];
 const progressBar = document.querySelector('.progress');
 const confirmation = document.querySelector('#confirmation');
-const menu = document.querySelector('#menu');
-const moreButton = document.querySelector('#moreButton');
 const toast = document.querySelector('#toast');
 let selected = 'white';
 let screen = 'ethnicity';
 let age = 18;
-let ageAnimation = null;
-let ageAnimationRun = 0;
 let toastTimer;
-
-function sizePhone() {
-  const scale = Math.min(1, window.innerWidth / 402, window.innerHeight / 874);
-  phone.style.setProperty('--phone-scale', scale);
-  phone.style.setProperty('--phone-top', `${Math.max(0, (window.innerHeight - 874 * scale) / 2)}px`);
-}
 
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
-}
-
-function closeMenu() {
-  menu.hidden = true;
-  moreButton.setAttribute('aria-expanded', 'false');
 }
 
 function updateProgress() {
@@ -64,7 +49,6 @@ function selectCharacter(key) {
     video.classList.toggle('active', active);
     if (active) video.play().catch(() => {});
   });
-  closeMenu();
 }
 
 function setAge(index) {
@@ -81,33 +65,6 @@ function setAge(index) {
   ageMarks.forEach((mark, markIndex) => mark.setAttribute('aria-pressed', String(markIndex === selectedIndex)));
 }
 
-function stopAgeAnimation() {
-  ageAnimationRun += 1;
-  if (ageAnimation !== null) cancelAnimationFrame(ageAnimation);
-  ageAnimation = null;
-}
-
-function animateAgeIntro() {
-  stopAgeAnimation();
-  const run = ageAnimationRun;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    setAge(3);
-    return;
-  }
-  setAge(0);
-  let start;
-  const duration = 1450;
-  function frame(time) {
-    if (run !== ageAnimationRun) return;
-    if (start === undefined) start = time;
-    const t = Math.min(1, (time - start) / duration);
-    const eased = t * t * (3 - 2 * t);
-    setAge(Math.min(3, Math.floor(eased * 4)));
-    ageAnimation = t < 1 ? requestAnimationFrame(frame) : null;
-  }
-  ageAnimation = requestAnimationFrame(frame);
-}
-
 function setScreen(next) {
   if (screen === next) return;
   screen = next;
@@ -119,42 +76,21 @@ function setScreen(next) {
   ageRange.disabled = next !== 'age';
   choiceSection.inert = next === 'age';
   document.querySelector('#backButton').setAttribute('aria-label', next === 'age' ? 'Back to ethnicity' : 'Back to first choice');
-  document.querySelector('#reloadButton').setAttribute('aria-label', next === 'age' ? 'Replay age transition' : 'Replay video');
-  document.querySelector('#replayMenuButton').textContent = next === 'age' ? 'Replay age transition' : 'Replay video';
   confirmation.hidden = true;
   updateProgress();
-  closeMenu();
   if (next === 'age') {
     videos.forEach(video => video.pause());
-    stopAgeAnimation();
     setAge(0);
   } else {
-    stopAgeAnimation();
     videos.forEach(video => video.play().catch(() => {}));
   }
 }
 
-function replay() {
-  if (screen === 'age') {
-    animateAgeIntro();
-  } else {
-    const video = videos.find(item => item.dataset.ethnicity === selected);
-    video.currentTime = 0;
-    video.play().catch(() => {});
-    showToast('Video restarted');
-  }
-  closeMenu();
-}
-
 choices.forEach(button => button.addEventListener('click', () => selectCharacter(button.dataset.choice)));
 ageMarks.forEach(mark => mark.addEventListener('click', () => {
-  stopAgeAnimation();
   setAge(Number(mark.dataset.index));
 }));
-ageRange.addEventListener('pointerdown', stopAgeAnimation);
-ageRange.addEventListener('keydown', stopAgeAnimation);
 ageRange.addEventListener('input', () => {
-  stopAgeAnimation();
   setAge(Number(ageRange.value));
 });
 
@@ -163,7 +99,6 @@ document.querySelector('#continueButton').addEventListener('click', () => {
     setScreen('age');
     return;
   }
-  stopAgeAnimation();
   document.querySelector('#confirmationEyebrow').textContent = 'Character ready';
   document.querySelector('#confirmationTitle').textContent = `${characters[selected].label} · ${age}`;
   document.querySelector('#confirmationDescription').textContent = 'Your character and age have been selected.';
@@ -191,24 +126,12 @@ function goBack() {
 }
 
 document.querySelector('#backButton').addEventListener('click', goBack);
-document.querySelector('#browserBack').addEventListener('click', goBack);
 document.querySelector('#closeButton').addEventListener('click', () => {
   if (screen === 'age') setScreen('ethnicity');
   else { selectCharacter('white'); showToast('Selection reset'); }
 });
-document.querySelector('#reloadButton').addEventListener('click', replay);
-document.querySelector('#replayMenuButton').addEventListener('click', replay);
-document.querySelector('#resetMenuButton').addEventListener('click', () => {
-  if (screen === 'age') setScreen('ethnicity');
-  selectCharacter('white');
-  showToast('Selection reset');
-});
-moreButton.addEventListener('click', () => {
-  menu.hidden = !menu.hidden;
-  moreButton.setAttribute('aria-expanded', String(!menu.hidden));
-});
 document.addEventListener('keydown', event => {
-  if (event.key === 'Escape') { confirmation.hidden = true; updateProgress(); closeMenu(); }
+  if (event.key === 'Escape') { confirmation.hidden = true; updateProgress(); }
   if (screen === 'ethnicity' && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
     if (!confirmation.hidden) return;
     const keys = Object.keys(characters);
@@ -216,11 +139,6 @@ document.addEventListener('keydown', event => {
     selectCharacter(keys[(index + (event.key === 'ArrowRight' ? 1 : -1) + keys.length) % keys.length]);
   }
 });
-document.addEventListener('click', event => {
-  if (!menu.hidden && !menu.contains(event.target) && event.target !== moreButton) closeMenu();
-});
-window.addEventListener('resize', sizePhone);
-sizePhone();
 setAge(0);
 updateProgress();
 videos.forEach(video => video.play().catch(() => {}));
